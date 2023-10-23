@@ -4,7 +4,7 @@ def call(boolean abortPipeline = false) {
         sh "${tool("SonarScanner")}/bin/sonar-scanner -Dsonar.projectKey=threepoints_devops_webserver -Dsonar.projectName=threepoints_devops_webserver"
     }
     timeout(time: 5, unit: 'MINUTES'){
-        def qg = waitForQualityGate abortPipeline: abort
+        def qg = waitForQualityGate abortPipeline: false
     }
     
 }
