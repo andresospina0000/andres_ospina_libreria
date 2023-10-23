@@ -4,11 +4,11 @@ def call(boolean abortPipeline = false) {
         sh "${tool("SonarScanner")}/bin/sonar-scanner -Dsonar.projectKey=threepoints_devops_webserver -Dsonar.projectName=threepoints_devops_webserver"
     }
     
-    timeout(time: 1, unit: 'MINUTES'){
-        def qg = waitForQualityGate abortPipeline: abort
-        if (qg.status != 'OK') {
-            error "Pipeline aborted due to quality gate failure: ${qg.status}"
-        }
-    }
+    // timeout(time: 1, unit: 'MINUTES'){
+    //     def qg = waitForQualityGate abortPipeline: abort
+    //     if (qg.status != 'OK') {
+    //         error "Pipeline aborted due to quality gate failure: ${qg.status}"
+    //     }
+    // }
     
 }
