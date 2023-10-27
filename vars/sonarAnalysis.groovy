@@ -21,8 +21,6 @@ def call(boolean abortPipeline, String gitBranch) {
     }    
     
     timeout(time: 5, unit: 'MINUTES') {
-        def qg = waitForQualityGate abortPipeline: abort
-    }
-    
-    
+        def qg = waitForQualityGate()
+    } 
 }
