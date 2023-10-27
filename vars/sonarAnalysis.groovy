@@ -1,5 +1,7 @@
 def call(boolean abortPipeline, String gitBranch) {
     
+    echo "${abortPipeline} - ${gitBranch}"
+
     if(abortPipeline){
         abortPipeline: abort
     }
