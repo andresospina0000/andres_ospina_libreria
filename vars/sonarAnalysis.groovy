@@ -5,7 +5,11 @@ def call(boolean abortPipeline, String gitBranch) {
     if(abortPipeline){
         abortPipeline: abort
     }
-    
+    def masterBranch = gitBranch.equalsIgnoreCase("master")
+    def hotfixBranch = gitBranch.startsWith("hotfix")
+
+    echo "${masterBranch} - ${hotfixBranch}"
+
     if(gitBranch.equalsIgnoreCase("master") || gitBranch.startsWith("hotfix")){
         abortPipeline: true
     }
