@@ -3,7 +3,8 @@ def call(boolean abortPipeline, String gitBranch) {
     echo "${abortPipeline} - ${gitBranch}"
 
     if(abortPipeline){
-        abortPipeline: abort
+        currentBuild.result = 'ABORTED'
+        error('Ejecución abortada por el usuario!')
     }
     def masterBranch = gitBranch.equalsIgnoreCase("master")
     def hotfixBranch = gitBranch.startsWith("hotfix")
@@ -11,7 +12,8 @@ def call(boolean abortPipeline, String gitBranch) {
     echo "${masterBranch} - ${hotfixBranch}"
 
     if(masterBranch || hotfixBranch){        
-        abortPipeline: true
+        currentBuild.result = 'ABORTED'        
+        error('Ejecución abortada. Rama master o hotfix!')
     }
     echo "SonarQube analysis"
     withSonarQubeEnv(installationName: 'Sonar Local',credentialsId: 'AO_Token') {
