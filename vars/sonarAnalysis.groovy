@@ -10,8 +10,7 @@ def call(boolean abortPipeline, String gitBranch) {
 
     echo "${masterBranch} - ${hotfixBranch}"
 
-    if(gitBranch.equalsIgnoreCase("master") || gitBranch.startsWith("hotfix")){
-        echo "Prefix block."
+    if(masterBranch || hotfixBranch){        
         abortPipeline: true
     }
     echo "SonarQube analysis"
