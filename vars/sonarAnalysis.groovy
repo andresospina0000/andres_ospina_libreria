@@ -1,19 +1,20 @@
-def call(boolean abortPipeline = false) {
+def call(boolean abortPipeline, String gitBranch) {
     
-    def abort = abortPipeline
+    if(abortPipeline){
+        abortPipeline: abort
+    }
     
-    echo "${abortPipeline}"
-    
+    if(gitBranch.equalsIgnoreCase("master") || gitBranch.startsWith("hotfix")){
+        abortPipeline: true
+    }
+
     withSonarQubeEnv(installationName: 'Sonar Local',credentialsId: 'AO_Token') {
         sh "${tool("SonarScanner")}/bin/sonar-scanner -Dsonar.projectKey=threepoints_devops_webserver -Dsonar.projectName=threepoints_devops_webserver"
-    }
-        
-    if (abortPipeline) {
-        timeout(time: 5, unit: 'MINUTES') {
-            def qg = waitForQualityGate 
-        }    
-    }else {
-        def qg = waitForQualityGate abortPipeline: abort
     }    
+    
+    timeout(time: 5, unit: 'MINUTES') {
+        def qg = waitForQualityGate abortPipeline: abort
+    }
+    
     
 }
